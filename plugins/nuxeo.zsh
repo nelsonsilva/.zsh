@@ -71,5 +71,13 @@ nxlink() {
     echo "usage: nxlink <folder>"
     return 1
   fi
-  find . -name "nuxeo-*.jar" -exec ln -fs $PWD/{} $1/nxserver/bundles \;
+  find . -name "nuxeo-*.jar" ! -name "*-test*.jar" ! -name "*-with-dependencies.jar" -exec ln -fs $PWD/{} $1/nxserver/bundles \;
+}
+
+cplinks() {
+  if (( ! $# )); then
+    echo "usage: cplinks <source folder> <target folder>"
+    return 1
+  fi
+  find $1 -type l -exec cp -R {} $2 \;
 }
